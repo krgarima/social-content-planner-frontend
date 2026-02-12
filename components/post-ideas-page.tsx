@@ -8,6 +8,24 @@ import { listPostIdeas } from "@/lib/api";
 import { PLATFORMS, POST_STATUSES } from "@/lib/constants";
 import { PostIdea } from "@/lib/types";
 
+function formatDateTime(value: string | null) {
+  if (!value) {
+    return "Not scheduled";
+  }
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return "Not scheduled";
+  }
+
+  return new Intl.DateTimeFormat(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(date);
+}
+
 export function PostIdeasPageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -127,23 +145,29 @@ export function PostIdeasPageContent() {
         )}
 
         {items.map((postIdea) => (
-          <article key={postIdea.id} className="card item item-card">
+          <Link
+            key={postIdea.id}
+            href={`/post-ideas/${postIdea.id}`}
+            className="card item item-card item-card-link"
+            aria-label={`Open post ${postIdea.id}: ${postIdea.title}`}
+          >
             <div className="item-meta">
               <div className="btn-row">
                 <span className="badge">{postIdea.platform}</span>
-                <span className="badge">{postIdea.status}</span>
+                <span className={`badge badge-status badge-status-${postIdea.status}`}>{postIdea.status}</span>
               </div>
               <span className="item-meta-id">Post #{postIdea.id}</span>
             </div>
-            <h3>{postIdea.title}</h3>
-            <p className="muted text-clamp">{postIdea.caption}</p>
-            <p className="muted">Hashtags: {postIdea.hashtags || "none"}</p>
-            <div className="item-footer">
-              <Link href={`/post-ideas/${postIdea.id}`} className="btn btn-ghost">
-                Open
-              </Link>
+            <div className="stack item-main">
+              <h3>{postIdea.title}</h3>
+              <p className="muted text-clamp">{postIdea.caption}</p>
             </div>
-          </article>
+            <div className="item-meta-row">
+              <span className="item-meta-chip">Scheduled: {formatDateTime(postIdea.scheduled_at)}</span>
+              <span className="item-meta-chip">Updated: {formatDateTime(postIdea.updated_at)}</span>
+            </div>
+            <p className="muted item-hashtags text-clamp">{postIdea.hashtags || "No hashtags yet"}</p>
+          </Link>
         ))}
       </section>
     </main>

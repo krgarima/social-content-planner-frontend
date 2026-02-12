@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 
 import { PostIdeaForm } from "@/components/post-idea-form";
 import { createPostIdea } from "@/lib/api";
+import { showNotice } from "@/lib/notify";
 import { PostIdeaPayload } from "@/lib/types";
 
 export default function NewPostIdeaPage() {
@@ -11,6 +12,7 @@ export default function NewPostIdeaPage() {
 
   const handleCreate = async (payload: PostIdeaPayload) => {
     const item = await createPostIdea(payload);
+    showNotice("Post idea created successfully.");
     router.push(`/post-ideas/${item.id}`);
   };
 

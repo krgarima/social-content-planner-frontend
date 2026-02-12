@@ -70,13 +70,13 @@ export function DashboardCharts({ statusData, platformData, dayData }: Dashboard
               <XAxis dataKey="name" tickLine={false} axisLine={axisLine} tick={tick} />
               <YAxis allowDecimals={false} tickLine={false} axisLine={axisLine} tick={tick} />
               <Tooltip
-                cursor={{ fill: "rgba(47, 110, 80, 0.12)" }}
+                cursor={{ fill: "var(--chart-platform-cursor)" }}
                 contentStyle={tooltipContentStyle}
                 labelStyle={tooltipLabelStyle}
                 itemStyle={tooltipItemStyle}
               />
               <Legend wrapperStyle={legendStyle} />
-              <Bar dataKey="value" fill="var(--ok)" radius={[6, 6, 0, 0]} />
+              <Bar dataKey="value" fill="var(--chart-platform)" radius={[6, 6, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>

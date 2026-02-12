@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { PostIdeaForm } from "@/components/post-idea-form";
 import { deletePostIdea, getPostIdea, updatePostIdea } from "@/lib/api";
+import { showNotice } from "@/lib/notify";
 import { PostIdea, PostIdeaPayload } from "@/lib/types";
 
 export default function PostIdeaDetailPage() {
@@ -53,8 +54,10 @@ export default function PostIdeaDetailPage() {
   }, [id]);
 
   const handleUpdate = async (payload: PostIdeaPayload) => {
+    setError(null);
     const updated = await updatePostIdea(id, payload);
     setItem(updated);
+    showNotice("Post idea updated successfully.");
   };
 
   const handleDelete = async () => {
@@ -66,6 +69,7 @@ export default function PostIdeaDetailPage() {
     setError(null);
     try {
       await deletePostIdea(item.id);
+      showNotice("Post idea deleted successfully.");
       router.push("/");
     } catch (deleteError) {
       const message = deleteError instanceof Error ? deleteError.message : "Failed to delete post idea.";
