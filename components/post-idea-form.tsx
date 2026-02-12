@@ -108,71 +108,84 @@ export function PostIdeaForm({ mode, initialValue, submitLabel, onSubmit }: Post
   };
 
   return (
-    <form className="card stack" onSubmit={handleSubmit}>
-      <div className="controls">
-        <label>
-          Platform
-          <select
-            value={platform}
-            onChange={(event) => setPlatform(event.target.value as PostIdeaPayload["platform"])}
+    <form className="card stack post-form" onSubmit={handleSubmit}>
+      <section className="form-section stack">
+        <div className="stack form-head">
+          <h2>Core Details</h2>
+          <p className="muted">Define the channel, state, and messaging for this idea.</p>
+        </div>
+        <div className="controls">
+          <label className="field-label">
+            Platform
+            <select
+              value={platform}
+              onChange={(event) => setPlatform(event.target.value as PostIdeaPayload["platform"])}
+              required
+            >
+              {PLATFORMS.map((value) => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="field-label">
+            Status
+            <select
+              value={status}
+              onChange={(event) => setStatus(event.target.value as PostIdeaPayload["status"])}
+              required
+            >
+              {POST_STATUSES.map((value) => (
+                <option key={value} value={value}>
+                  {value}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <label className="field-label">
+          Title
+          <input
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            minLength={3}
+            maxLength={200}
             required
-          >
-            {PLATFORMS.map((value) => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
+          />
         </label>
-        <label>
-          Status
-          <select
-            value={status}
-            onChange={(event) => setStatus(event.target.value as PostIdeaPayload["status"])}
-            required
-          >
-            {POST_STATUSES.map((value) => (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            ))}
-          </select>
+
+        <label className="field-label">
+          Caption
+          <textarea value={caption} onChange={(event) => setCaption(event.target.value)} minLength={3} required />
         </label>
-      </div>
+      </section>
 
-      <label>
-        Title
-        <input
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
-          minLength={3}
-          maxLength={200}
-          required
-        />
-      </label>
+      <section className="form-section stack">
+        <div className="stack form-head">
+          <h2>Publishing</h2>
+          <p className="muted">Schedule delivery and maintain a reusable hashtag list.</p>
+        </div>
+        <label className="field-label">
+          Schedule (optional)
+          <input
+            type="datetime-local"
+            value={scheduledAt}
+            onChange={(event) => setScheduledAt(event.target.value)}
+          />
+        </label>
 
-      <label>
-        Caption
-        <textarea value={caption} onChange={(event) => setCaption(event.target.value)} minLength={3} required />
-      </label>
+        <label className="field-label">
+          Hashtags (comma-separated)
+          <input value={hashtags} onChange={(event) => setHashtags(event.target.value)} placeholder="#content, #marketing" />
+        </label>
+      </section>
 
-      <label>
-        Schedule (optional)
-        <input
-          type="datetime-local"
-          value={scheduledAt}
-          onChange={(event) => setScheduledAt(event.target.value)}
-        />
-      </label>
-
-      <label>
-        Hashtags (comma-separated)
-        <input value={hashtags} onChange={(event) => setHashtags(event.target.value)} placeholder="#content, #marketing" />
-      </label>
-
-      <div className="stack hashtag-box">
+      <section className="stack hashtag-box">
         <strong>Hashtag Assistant</strong>
-        <div className="btn-row">
+        <p className="muted">Type a keyword, pull suggestions, and click chips to add hashtags quickly.</p>
+        <div className="btn-row hashtag-actions">
           <input
             value={keyword}
             onChange={(event) => setKeyword(event.target.value)}
@@ -191,11 +204,11 @@ export function PostIdeaForm({ mode, initialValue, submitLabel, onSubmit }: Post
             ))}
           </div>
         )}
-      </div>
+      </section>
 
-      {error && <p className="muted">{error}</p>}
+      {error && <p className="muted ui-alert">{error}</p>}
 
-      <div className="btn-row">
+      <div className="btn-row form-actions">
         <button className="btn btn-primary" type="submit" disabled={submitting}>
           {submitting ? "Saving..." : submitLabel}
         </button>

@@ -77,7 +77,7 @@ export default function PostIdeaDetailPage() {
 
   return (
     <main className="stack">
-      <section className="card stack">
+      <section className="card stack detail-toolbar">
         <div className="btn-row">
           <Link href="/" className="btn btn-ghost">
             Back to Posts
@@ -87,14 +87,14 @@ export default function PostIdeaDetailPage() {
           </button>
         </div>
         {loading && <p className="muted">Loading post idea...</p>}
-        {error && <p className="muted">{error}</p>}
+        {error && <p className="muted ui-alert">{error}</p>}
       </section>
 
       {item && (
         <>
-          <section className="stack">
+          <section className="hero-card stack">
             <h1>Edit Post Idea #{item.id}</h1>
-            <p className="muted">Update fields, then save your changes.</p>
+            <p className="hero-caption">Update fields, then save your changes.</p>
           </section>
           <PostIdeaForm mode="edit" initialValue={item} submitLabel="Save Changes" onSubmit={handleUpdate} />
         </>

@@ -49,23 +49,26 @@ export default function DashboardPage() {
 
   return (
     <main className="stack">
-      <section className="card stack">
-        <h1>Dashboard</h1>
-        <p className="muted">Reporting snapshot generated from live database data.</p>
+      <section className="hero-card stack">
+        <div className="dashboard-header">
+          <h1>Dashboard</h1>
+          <span className="dashboard-dot" aria-hidden="true" />
+        </div>
+        <p className="hero-caption">Reporting snapshot generated from live database data.</p>
         {loading && <p className="muted">Loading dashboard...</p>}
-        {error && <p className="muted">{error}</p>}
+        {error && <p className="muted ui-alert">{error}</p>}
         {summary && (
           <div className="kpi-grid">
             <article className="kpi">
-              <h3>Total Posts</h3>
+              <h3 className="kpi-label">Total Posts</h3>
               <p>{summary.total_posts}</p>
             </article>
             <article className="kpi">
-              <h3>Statuses</h3>
+              <h3 className="kpi-label">Statuses</h3>
               <p>{Object.keys(summary.by_status).length}</p>
             </article>
             <article className="kpi">
-              <h3>Platforms</h3>
+              <h3 className="kpi-label">Platforms</h3>
               <p>{Object.keys(summary.by_platform).length}</p>
             </article>
           </div>

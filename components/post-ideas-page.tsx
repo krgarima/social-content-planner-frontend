@@ -78,11 +78,16 @@ export function PostIdeasPageContent() {
 
   return (
     <main className="stack">
-      <section className="card stack">
-        <h1>Post Ideas</h1>
-        <p className="muted">Track content from idea to published in one place.</p>
-        <div className="controls">
-          <label>
+      <section className="hero-card stack hero-card--posts">
+        <div className="hero-grid">
+          <div className="stack">
+            <h1>Post Ideas</h1>
+            <p className="hero-caption">Track content from idea to published in one place.</p>
+          </div>
+          <span className="hero-stat hero-stat-emphasis">{summaryLabel}</span>
+        </div>
+        <div className="controls controls-filters">
+          <label className="field-label">
             Filter by status
             <select value={selectedStatus} onChange={(event) => updateFilters({ status: event.target.value })}>
               <option value="">All statuses</option>
@@ -93,7 +98,7 @@ export function PostIdeasPageContent() {
               ))}
             </select>
           </label>
-          <label>
+          <label className="field-label">
             Filter by platform
             <select value={selectedPlatform} onChange={(event) => updateFilters({ platform: event.target.value })}>
               <option value="">All platforms</option>
@@ -109,31 +114,35 @@ export function PostIdeasPageContent() {
           <Link href="/new" className="btn btn-primary">
             Create New Post Idea
           </Link>
-          <span className="muted">{summaryLabel}</span>
         </div>
-        {error && <p className="muted">{error}</p>}
+        {error && <p className="muted ui-alert">{error}</p>}
       </section>
 
       <section className="list-grid">
         {!loading && items.length === 0 && (
-          <article className="card item">
+          <article className="card item item-card">
             <h3>No ideas yet</h3>
             <p className="muted">Start by creating your first post idea.</p>
           </article>
         )}
 
         {items.map((postIdea) => (
-          <article key={postIdea.id} className="card item">
-            <div className="btn-row">
-              <span className="badge">{postIdea.platform}</span>
-              <span className="badge">{postIdea.status}</span>
+          <article key={postIdea.id} className="card item item-card">
+            <div className="item-meta">
+              <div className="btn-row">
+                <span className="badge">{postIdea.platform}</span>
+                <span className="badge">{postIdea.status}</span>
+              </div>
+              <span className="item-meta-id">Post #{postIdea.id}</span>
             </div>
             <h3>{postIdea.title}</h3>
-            <p className="muted">{postIdea.caption}</p>
+            <p className="muted text-clamp">{postIdea.caption}</p>
             <p className="muted">Hashtags: {postIdea.hashtags || "none"}</p>
-            <Link href={`/post-ideas/${postIdea.id}`} className="btn btn-ghost">
-              Open
-            </Link>
+            <div className="item-footer">
+              <Link href={`/post-ideas/${postIdea.id}`} className="btn btn-ghost">
+                Open
+              </Link>
+            </div>
           </article>
         ))}
       </section>

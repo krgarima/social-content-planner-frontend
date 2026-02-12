@@ -16,9 +16,9 @@ export default function NewPostIdeaPage() {
 
   return (
     <main className="stack">
-      <section className="stack">
+      <section className="hero-card stack">
         <h1>New Post Idea</h1>
-        <p className="muted">Capture a post concept and add hashtags in one flow.</p>
+        <p className="hero-caption">Capture a post concept and add hashtags in one flow.</p>
       </section>
       <PostIdeaForm mode="create" submitLabel="Create Post Idea" onSubmit={handleCreate} />
     </main>
